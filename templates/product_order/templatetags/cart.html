@@ -1,0 +1,50 @@
+<div class="col-table-cell col-lg-3 col-md-3 col-sm-6 col-xs-12">
+  <div id="cart">
+    <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="heading dropdown-toggle">
+      <span class="cart-icon pull-left flip"></span>
+      <span id="cart-total">سبد خرید</span></button>
+      <ul class="dropdown-menu">
+        <li>
+          {% if items %}
+          <table class="table">
+            <tbody>
+                {% for item in items %}
+              <tr>
+                <td class="img-fluid w-25">
+                    <a href="{% url "product:product_detail" item.item.uuid %}">
+                        <img class="img-fluid w-25" title="{{item.item.title}}" alt="{{item.item.title}}" src="{{item.item.image.url}}"  width="50" height="50">
+                    </a>
+                </td>
+                <td class="text-left"><a href="{% url "product:product_detail" item.item.uuid %}">{{item.item.title}}</a></td>
+                <td class="text-right">x {{item.count}}</td>
+                <td class="text-right">{{item.get_total_price}}</td>
+                <td class="text-center"><button class="btn btn-danger btn-xs remove" title="حذف" onClick="" type="button"><i class="fa fa-times"></i></button></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </li>
+        <li>
+          <div>
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td class="text-right"><strong>جمع کل</strong></td>
+                  <td class="text-right">{% if total_price %}{{total_price}} تومان {% else %} 0تومان{% endif %}</td>
+                </tr>
+                <tr>
+                  <td class="text-right"><strong>قابل پرداخت</strong></td>
+                  <td class="text-right">{% if total_price %}{{total_price}} تومان {% else %} 0تومان{% endif %}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="checkout"><a href="{% url "orders:buy_order" %}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> مشاهده سبد</a>&nbsp;&nbsp;&nbsp;<a href="{% url "orders:buy_order" %}" class="btn btn-primary"><i class="fa fa-share"></i> تسویه حساب</a></p>
+          </div>
+        </li>
+        {% else %}
+              <a>هنوز هیچ محصولی وارد سبد خرید نکرده اید):</a>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  

@@ -1,0 +1,36 @@
+<div class="container">
+    <nav id="menu" class="navbar">
+      <div class="navbar-header"> <span class="visible-xs visible-sm"> منو <b></b></span></div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li><a class="home_link" title="خانه" href="{% url "product:home" %}"><span>خانه</span></a></li>
+          <li class="mega-menu dropdown"><a>دسته ها</a>
+            <div class="dropdown-menu">
+                {% for category in categories %}
+                <div class="column col-lg-2 col-md-3"><a href="{% url 'product:category' slug=category.slug %}">{{ category.title }}</a>
+                    <div>
+                      <ul>
+                        {% for sub1 in category.children.all %}
+                        <li><a href="{% url 'product:category' slug=sub1.slug %}">{{sub1.title}} <span>&rsaquo;</span></a>
+                          <div class="dropdown-menu">
+                            <ul>
+                            {% for sub2 in sub1.children.all %}
+                              <li><a href="{% url 'product:category' slug=sub2.slug %}">{{ sub2.title }}</a></li>
+                            {% endfor %}
+                            </ul>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+          </li>
+
+          <li class="custom-link-right"><a href="#" target="_blank"> همین حالا بخرید!</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>

@@ -1,0 +1,222 @@
+
+{% extends '_base.html' %}
+
+
+{% block content %}
+<div id="container">
+  <div class="container">
+    <!-- Breadcrumb Start-->
+    <ul class="breadcrumb">
+      <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+      <li><a href="category.html">
+        {% if category %}
+        {{category.title}}
+        {% else %}
+        همه محصولات
+        {% endif %}
+      </a></li>
+    </ul>
+    <!-- Breadcrumb End-->
+    <div class="row">
+      <!--Left Part Start -->
+      <aside id="column-left" class="col-sm-3 hidden-xs">
+        <h3 class="subtitle">دسته ها</h3>
+        <div class="box-category">
+          <ul id="cat_accordion">
+            <ul>
+              {% for category in categories %}
+                <li>
+                  <a href="{% url 'product:category' slug=category.slug %}">{{ category.title }}</a>
+                  {% if category.children.exists %}
+                    <span class="down"></span>
+                    <ul>
+                      {% for child in category.children.all %}
+                        <li>
+                          <a href="{% url 'product:category' slug=child.slug %}">{{ child.title }}</a>
+                          {% if child.children.exists %}
+                            <span class="down"></span>
+                            <ul>
+                              {% for sub_child in child.children.all %}
+                                <li>
+                                  <a href="{% url 'product:category' slug=sub_child.slug %}">{{ sub_child.name }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+        </div>
+        
+          <h3 class="subtitle">پرفروش ها</h3>
+          <div class="side-item">
+            {% for product in product_count_sold %}
+            <div class="product-thumb clearfix">
+              <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
+              <div class="caption">
+                <h4><a href="{% url "product:product_detail" product.uuid %}">{{product.title}}</a></h4>
+                <p class="price"> <span class="price-new">{{product.get_total_price}} تومان</span>{% if product.is_special %} <span class="price-old">{{product.price}} تومان</span>{% endif %} {% if product.discount %}<span class="saving">{{product.discount}}%</span>{% endif %} </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <h3 class="subtitle">ویژه</h3>
+          <div class="side-item">
+            {% for product in special_products %}
+            <div class="product-thumb clearfix">
+              <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
+              <div class="caption">
+                <h4><a href="{% url "product:product_detail" product.uuid %}">{{product.title}}</a></h4>
+                <p class="price"> <span class="price-new">{{product.get_total_price}} تومان</span> <span class="price-old">{{product.price}} تومان</span> <span class="saving">{{product.discount}}%</span> </p>
+              </div>
+            </div>
+            {% endfor %}
+            
+          </div>
+          <h3 class="subtitle">جدیدترین</h3>
+          <div class="side-item">
+  
+            {% for product in product_created_at %}
+            <div class="product-thumb clearfix">
+              <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
+              <div class="caption">
+                <h4><a href="{% url "product:product_detail" product.uuid %}">{{product.title}}</a></h4>
+                <p class="price"> <span class="price-new">{{product.get_total_price}} تومان</span>{% if product.is_special %}<span class="price-old">{{product.price}} تومان</span> {% endif %} {% if product.discount %}<span class="saving">{{product.discount}}%</span>{% endif %} </p>
+              </div>
+            </div>
+            {% endfor %}
+            
+          </div>
+        
+        
+      </aside>
+      
+      <!--Left Part End -->
+      <!--Middle Part Start-->
+      <div id="content" class="col-sm-9">
+        <h1 class="title">
+          {% if categorys %}
+          {{categorys.title}}
+          {% else %}
+          همه محصولات
+          {% endif %}
+        </h1>
+        
+        <div class="product-filter">
+          <div class="row">
+            <div class="col-md-4 col-sm-5">
+              <div class="btn-group">
+                <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
+                <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
+              </div>
+              <a  id="compare-total"></a> </div>
+            <div class="col-sm-2 text-right">
+              <label class="control-label" for="input-sort">مرتب سازی :</label>
+            </div>
+            <div class="col-md-3 col-sm-2 text-right">
+              <select id="input-sort" class="form-control col-sm-3" onchange="location = this.value;">
+                <option value="?sort=default" {% if sort_by == 'default' %}selected{% endif %}>پیشفرض</option>
+                <option value="?sort=name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>نام (الف - ی)</option>
+                <option value="?sort=name_desc" {% if sort_by == 'name_desc' %}selected{% endif %}>نام (ی - الف)</option>
+                <option value="?sort=price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>قیمت (کم به زیاد)</option>
+                <option value="?sort=price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>قیمت (زیاد به کم)</option>
+                <option value="?sort=rating_desc" {% if sort_by == 'rating_desc' %}selected{% endif %}>امتیاز (بیشترین)</option>
+                <option value="?sort=rating_asc" {% if sort_by == 'rating_asc' %}selected{% endif %}>امتیاز (کمترین)</option>
+            </select>
+            
+            </div>
+            <div class="col-sm-1 text-right">
+              <label class="control-label" for="input-limit">نمایش:</label>
+            </div>
+            <div class="col-sm-2 text-right">
+              <select id="input-limit" class="form-control" onchange="location = this.value;">
+                <option value="?limit=20" {% if limit == 20 %}selected{% endif %}>20</option>
+                <option value="?limit=25" {% if limit == 25 %}selected{% endif %}>25</option>
+                <option value="?limit=50" {% if limit == 50 %}selected{% endif %}>50</option>
+                <option value="?limit=75" {% if limit == 75 %}selected{% endif %}>75</option>
+                <option value="?limit=100" {% if limit == 100 %}selected{% endif %}>100</option>
+            </select>
+            
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row products-category">
+          {% if categorys %}
+          {% for product in categorys.get_child_products %}
+          <div class="product-layout product-list col-xs-12">
+            <div class="product-thumb">
+              <div class="image"><a href="{{product.get_absulote_url}}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" width=100 /></a></div>
+              <div>
+                <div class="caption">
+                  <h4><a href="{{product.get_absulote_url}}">{{product.title}}</a></h4>
+                  <p class="description">{{product.description}}</p>
+                  <p class="price"> <span class="price-new">{{product.get_total_price}}</span> <span class="price-old">{{product.price}}</span> {% if product.discount %}<span class="saving">%{{product.discount}}</span>{% endif %} <span class="price-tax">بدون مالیات : {{product.price}}</span> </p>
+                  <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
+                </div>
+                <div class="button-group">
+                  <a href="{% url 'product:product_detail' product.uuid %}"><button class="btn-primary" type="button"><span>افزودن به سبد</span></button></a>
+                  <div class="add-to-links">
+                    <button type="button" data-toggle="tooltip" title="افزودن به علاقه مندی ها" onClick=""><i class="fa fa-heart"></i> <span>افزودن به علاقه مندی ها</span></button>
+                    <button type="button" data-toggle="tooltip" title="مقایسه این محصول" onClick=""><i class="fa fa-exchange"></i> <span>مقایسه این محصول</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">
+              <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                      <li><a href="?page=1">&laquo;</a></li>
+                      <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                      <li class="disabled"><span>&lt;</span></li>
+                  {% endif %}
+      
+                  {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                          <li class="active"><span>{{ num }}</span></li>
+                      {% else %}
+                          <li><a href="?page={{ num }}">{{ num }}</a></li>
+                      {% endif %}
+                  {% endfor %}
+      
+                  {% if page_obj.has_next %}
+                      <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                      <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+                  {% else %}
+                      <li class="disabled"><span>&gt;</span></li>
+                      <li class="disabled"><span>&raquo;</span></li>
+                  {% endif %}
+              </ul>
+          </div>
+          <div class="col-sm-6 text-right">
+              نمایش {{ page_obj.start_index }} تا {{ page_obj.end_index }} از {{ page_obj.paginator.count }}
+              (مجموع {{ page_obj.paginator.num_pages }} صفحه)
+          </div>
+      </div>
+      
+      </div>
+      <!--Middle Part End -->
+    </div>
+  </div>
+</div>
+{% endblock %}
+<script>
+document.getElementById('list-view').addEventListener('click', function() {
+  document.querySelector('.product-grid').classList.add('list-view');
+});
+
+document.getElementById('grid-view').addEventListener('click', function() {
+  document.querySelector('.product-grid').classList.remove('list-view');
+});
+</script>

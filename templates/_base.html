@@ -1,0 +1,58 @@
+{% load static %}
+{% load product_tags %}
+
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="image/favicon.png" rel="icon" />
+<title>{% block title %}مارکت شاپ - قالب HTML فروشگاهی{% endblock %}</title>
+<meta name="description" content={% block description %}"Responsive and clean html template design for any kind of ecommerce webshop"{% endblock %}>
+<!-- CSS Part Start-->
+<link rel="stylesheet" type="text/css" href={% static "product/js/bootstrap/css/bootstrap.min.css"  %}/>
+<link rel="stylesheet" type="text/css" href={% static "product/js/bootstrap/css/bootstrap-rtl.min.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/font-awesome/css/font-awesome.min.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/stylesheet.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/owl.carousel.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/owl.transitions.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/responsive.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/stylesheet-rtl.css" %} />
+<link rel="stylesheet" type="text/css" href={% static "product/css/responsive-rtl.css" %} />
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans' type='text/css'>
+{% block extra_link %}
+{% endblock %}
+<!-- CSS Part End-->
+</head>
+<body>
+<div class="wrapper-wide">
+  <div id="header">
+    <!-- Top Bar Start-->
+    {% include "product/includes/navbar.html" %}
+    <!-- Top Bar End-->
+    <!-- Header Start-->
+    {% include "product/includes/header.html" %}
+    <!-- Header End-->
+    <!-- Main آقایانu Start-->
+    {% get_categories %}
+    <!-- Main آقایانu End-->
+  </div>
+  {% block content %}
+  {% endblock %}
+  <!--Footer Start-->
+  {% include "product/includes/footer.html" %}
+  <!--Footer End-->
+</div>
+<!-- JS Part Start-->
+<script type="text/javascript" src={% static "product/js/jquery-2.1.1.min.js" %}></script>
+<script type="text/javascript" src={% static "product/js/bootstrap/js/bootstrap.min.js" %}></script>
+<script type="text/javascript" src={% static "product/js/jquery.easing-1.3.min.js" %}></script>
+<script type="text/javascript" src={% static "product/js/jquery.dcjqaccordion.min.js" %}></script>
+<script type="text/javascript" src={% static "product/js/owl.carousel.min.js" %}></script>
+<script type="text/javascript" src={% static "product/js/custom.js" %}></script>
+{% block extra_script %}
+{% endblock %}
+<!-- JS Part End-->
+</body>
+</html>

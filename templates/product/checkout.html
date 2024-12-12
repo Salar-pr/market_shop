@@ -1,0 +1,368 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="wrapper-wide">
+  <div id="header">
+   
+   
+    <!-- Main آقایانu End-->
+  </div>
+  <div id="container">
+    <div class="container">
+      <!-- Breadcrumb Start-->
+      <ul class="breadcrumb">
+        <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+        <li><a href="cart.html">سبد خرید</a></li>
+        <li><a href="checkout.html">تسویه حساب</a></li>
+      </ul>
+      <!-- Breadcrumb End-->
+      <div class="row">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-12">
+          <h1 class="title">تسویه حساب</h1>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><i class="fa fa-sign-in"></i> یک حساب کاربری ساخته و یا به حساب خود وارد شوید</h4>
+                </div>
+                  <div class="panel-body">
+                        <div class="radio">
+                          <label>
+                            <input type="radio" value="register" name="account">
+                            ثبت نام حساب کاربری</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" checked="checked" value="guest" name="account">
+                            تسویه حساب مهمان</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" value="returning" name="account">
+                            مشتری قبلی</label>
+                        </div>
+                  </div>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                
+                <!-- بخش اطلاعات شخصی -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><i class="fa fa-user"></i> اطلاعات شخصی شما</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.phone_number.label_tag }}
+                            {{ form.phone_number|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.fax.label_tag }}
+                            {{ form.fax|attr:"class=form-control" }}
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- بخش آدرس -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><i class="fa fa-book"></i> آدرس</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.address_1.label_tag }}
+                            {{ form.address_1|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.city.label_tag }}
+                            {{ form.city|attr:"class=form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.postcode.label_tag }}
+                            {{ form.postcode|attr:"class=form-control" }}
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- بخش اطلاعات بانکی -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><i class="fa fa-bank"></i> اطلاعات بانکی</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.card_number.label_tag }}
+                            {{ form.card_number|attr:"class=form-control" }}
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- نمایش پیام‌ها -->
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            
+                <!-- دکمه ارسال -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">پرداخت</button>
+                </div>
+            </form>
+            
+            </div>
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-truck"></i> شیوه ی تحویل</h4>
+                    </div>
+                      <div class="panel-body">
+                        <p>لطفا یک شیوه حمل و نقل انتخاب کنید.</p>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" checked="checked" name="ارسال رایگان">
+                            رایگان - 0 تومان</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="Flat Shipping Rate">
+                            هزینه ی ثابت - 8000 تومان</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="Per Item Shipping Rate">
+                            ارسال هر آیتم به صورت جداگانه - 150000 تومان</label>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-credit-card"></i> شیوه پرداخت</h4>
+                    </div>
+                      <div class="panel-body">
+                        <p>لطفا یک شیوه پرداخت برای سفارش خود انتخاب کنید.</p>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" checked="checked" name="Cash On Delivery">
+                            پرداخت هنگام تحویل</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="Bank Transfer">
+                            واریز به حساب</label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="Paypal">
+                            پی پال</label>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-ticket"></i> استفاده از کوپن تخفیف</h4>
+                    </div>
+                      <div class="panel-body">
+                        <label for="input-coupon" class="col-sm-3 control-label">کد تخفیف خود را وارد کنید</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="input-coupon" placeholder="کد تخفیف خود را در اینجا وارد کنید" value="" name="coupon">
+                          <span class="input-group-btn">
+                          <input type="button" class="btn btn-primary" data-loading-text="بارگذاری ..." id="button-coupon" value="اعمال کوپن">
+                          </span></div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-gift"></i> استفاده از کارت هدیه</h4>
+                    </div>
+                      <div class="panel-body">
+                        <label for="input-voucher" class="col-sm-3 control-label">کد کارت هدیه خود را وارد کنید</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="input-voucher" placeholder="کد کارت هدیه خود را در اینجا وارد کنید" value="" name="voucher">
+                          <span class="input-group-btn">
+                          <input type="submit" class="btn btn-primary" data-loading-text="بارگذاری ..." id="button-voucher" value="اعمال کارت هدیه">
+                          </span> </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-shopping-cart"></i> سبد خرید</h4>
+                      <div class="panel-body">
+                        <div class="table-responsive">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th class="text-center">تصویر</th>
+                                      <th class="text-left">نام محصول</th>
+                                      <th class="text-center">تعداد</th>
+                                      <th class="text-right">قیمت واحد</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {% for item in items %}
+                                  <tr>
+                                      <td class="text-center">
+                                          <a href="{% url 'product:product_detail' item.item.uuid %}">
+                                              <img src="{{ item.item.image.url }}" alt="{{ item.item.title }}" title="{{ item.item.title }}" class="img-thumbnail"   width="50" height="50">
+                                          </a>
+                                      </td>
+                                      <td class="text-left">
+                                          <a href="{% url 'product:product_detail' item.item.uuid %}">
+                                              {{ item.item.title }}
+                                          </a>
+                                      </td>
+                                      <td class="text-center">{{ item.count }}</td>
+                                      <td class="text-right">{{ item.price }} تومان</td>
+                                  </tr>
+                                  {% endfor %}
+                              </tbody>
+                              <tfoot>
+                                  <tr>
+                                      <td colspan="3" class="text-right"><strong>کل:</strong></td>
+                                      <td class="text-right">{{ total_price }} تومان</td>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                      </div>
+                      
+                    </div>
+                    
+                </div>
+                <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><i class="fa fa-pencil"></i> افزودن توضیح برای سفارش.</h4>
+                    </div>
+                      <div class="panel-body">
+                        <textarea rows="4" class="form-control" id="confirm_comment" name="comments"></textarea>
+                        <br>
+                        <label class="control-label" for="confirm_agree">
+                          <input type="checkbox" checked="checked" value="1" required="" class="validate required" id="confirm_agree" name="confirm agree">
+                          <span><a class="agree" href="#"><b>شرایط و قوانین</b></a> را خوانده ام و با آنها موافق هستم.</span> </label>
+                        
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Middle Part End -->
+      </div>
+    </div>
+  </div>
+  <!--Footer Start-->
+  <footer id="footer">
+    <div class="fpart-first">
+      <div class="container">
+        <div class="row">
+          <div class="contact col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <h5>اطلاعات تماس</h5>
+            <ul>
+              <li class="address"><i class="fa fa-map-marker"></i>میدان تایمز، شماره 77، نیویورک</li>
+              <li class="mobile"><i class="fa fa-phone"></i>+21 9898777656</li>
+              <li class="email"><i class="fa fa-envelope"></i>برقراری ارتباط از طریق <a href="contact-us.html">تماس با ما</a>
+            </ul>
+          </div>
+          <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <h5>اطلاعات</h5>
+            <ul>
+              <li><a href="about-us.html">درباره ما</a></li>
+              <li><a href="about-us.html">اطلاعات 0 تومان</a></li>
+              <li><a href="about-us.html">حریم خصوصی</a></li>
+              <li><a href="about-us.html">شرایط و قوانین</a></li>
+            </ul>
+          </div>
+          <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <h5>خدمات مشتریان</h5>
+            <ul>
+              <li><a href="contact-us.html">تماس با ما</a></li>
+              <li><a href="#">بازگشت</a></li>
+              <li><a href="sitemap.html">نقشه سایت</a></li>
+            </ul>
+          </div>
+          <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <h5>امکانات جانبی</h5>
+            <ul>
+              <li><a href="#">برند ها</a></li>
+              <li><a href="#">کارت هدیه</a></li>
+              <li><a href="#">بازاریابی</a></li>
+              <li><a href="#">ویژه ها</a></li>
+            </ul>
+          </div>
+          <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <h5>حساب من</h5>
+            <ul>
+              <li><a href="#">حساب کاربری</a></li>
+              <li><a href="#">تاریخچه سفارشات</a></li>
+              <li><a href="#">لیست علاقه مندی</a></li>
+              <li><a href="#">خبرنامه</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fpart-second">
+      <div class="container">
+        <div id="powered" class="clearfix">
+          <div class="powered_text pull-left flip">
+            <p>کپی رایت © 2016 فروشگاه شما</p>
+          </div>
+          <div class="social pull-right flip"> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/facebook.png" alt="Facebook" title="Facebook"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/twitter.png" alt="Twitter" title="Twitter"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/google_plus.png" alt="Google+" title="Google+"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/pinterest.png" alt="Pinterest" title="Pinterest"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/rss.png" alt="RSS" title="RSS"> </a> </div>
+        </div>
+        <div class="bottom-row">
+          <div class="custom-text text-center">
+            <p>این یک بلاک مدیریت محتواست. شما میتوانید هر نوع محتوای html نوشتاری یا تصویری را در آن قرار دهید. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
+          </div>
+          <div class="payments_types"> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_paypal.png" alt="paypal" title="PayPal"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_american.png" alt="american-express" title="American Express"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_2checkout.png" alt="2checkout" title="2checkout"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_maestro.png" alt="maestro" title="Maestro"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_discover.png" alt="discover" title="Discover"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_mastercard.png" alt="mastercard" title="MasterCard"></a> </div>
+        </div>
+      </div>
+    </div>
+    <div id="back-top"><a data-toggle="tooltip" title="بازگشت به بالا" href="javascript:void(0)" class="backtotop"><i class="fa fa-chevron-up"></i></a></div>
+  </footer>
+  <!--Footer End-->
+  <!-- Facebook Side Block Start -->
+  <div id="facebook" class="fb-left sort-order-1">
+    <div class="facebook_icon"><i class="fa fa-facebook"></i></div>
+    <div class="fb-page" data-href="#" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
+      <div class="fb-xfbml-parse-ignore">
+        <blockquote cite="#"><a href="#">سايت شما</a></blockquote>
+      </div>
+    </div>
+    <div id="fb-root"></div>
+    
+
+  </div>
+
+{% endblock %}
+
+
+

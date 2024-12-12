@@ -1,0 +1,47 @@
+{% load static %}
+
+<nav id="top" class="htop">
+    <div class="container">
+        <div class="row">
+            <span class="drop-icon visible-sm visible-xs">
+                <i class="fa fa-align-justify"></i>
+            </span>
+
+            <div class="pull-left flip left-top">
+                <div class="links">
+                    <ul>
+                        <!-- سازنده -->
+                        <li><i class="fa fa-cogs"></i> سازنده: salar_pr</li>
+
+                        <!-- شماره تماس -->
+                        <li class="mobile"><i class="fa fa-phone"></i> +21 9898777656</li>
+
+                        <!-- ایمیل -->
+                        <li class="email">
+                            <a href="https://github.com/Salar-pr"><i class="fa fa-github"></i> Salar-pr.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="top-links" class="nav pull-right flip">
+                <ul>
+                    {% if request.user.is_authenticated %}
+                    <!-- خوش آمدگویی به کاربر -->
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link" style="background: none; border: none;">
+                            <i class="fa fa-sign-out">خروج</i> 
+                        </button>
+                    </form>
+                    <li><i class="fa fa-user"></i> خوش آمدید {{ request.user.username }}</li>
+                    {% else %}
+                    <!-- ورود و ثبت نام -->
+                    <li><a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> ورود</a></li>
+                    <li><a href="{% url 'signup' %}"><i class="fa fa-user-plus"></i> ثبت نام</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

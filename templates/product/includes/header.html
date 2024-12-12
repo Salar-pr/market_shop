@@ -1,0 +1,27 @@
+{% load cart %}
+
+<header class="header-row">
+    <div class="container">
+      <div class="table-container">
+        <!-- Logo Start -->
+        <div class="col-table-cell col-lg-6 col-md-6 col-sm-12 col-xs-12 inner">
+          <div id="logo"><a href="{% url "product:home" %}"><img class="img-responsive" src="media/mark/photo_5958515401300230664_y.jpg" title="SALARShop" alt="SALARShop" width=75   /></a></div>
+        </div>
+        <!-- Logo End -->
+        <!-- Mini Cart Start-->
+        {% if request.user.is_authenticated %}
+        {% get_cart_items %}
+        {% endif %}
+
+        <!-- Mini Cart End-->
+        <!-- جستجو Start-->
+        <div class="col-table-cell col-lg-3 col-md-3 col-sm-6 col-xs-12 inner">
+          <div id="search" class="input-group">
+            <input id="filter_name" type="text" name="search" value="" placeholder="جستجو" class="form-control input-lg" />
+            <button type="button" class="button-search"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+        <!-- جستجو End-->
+      </div>
+    </div>
+  </header>
