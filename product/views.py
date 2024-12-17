@@ -54,11 +54,20 @@ def product_detail(request, uuid):
             return redirect('product:product_detail', uuid=product.uuid)
     else:
         form = CommentForm()
+    product_count_sold = Product.objects.filter(count_sold__gte=36).order_by('-count_sold')[:5]
+    product_created_at = Product.objects.order_by('-created_at')[:5]
+    special_products = Product.objects.filter(
+        is_special=True).order_by('-discount')
+
+    
 
     context = {
         "product": product,
         "comments": comments,
-        "form": form
+        "form": form,
+        'product_count_sold':product_count_sold,
+        'product_created_at':product_created_at,
+        "special_products": special_products,
     }
 
     return render(request, "product/product.html", context)
@@ -128,18 +137,21 @@ def category(request, slug):
             category.slug = slugify(category.title)
             category.save()
 
-    product = Product.objects.all()
-    category = get_object_or_404(Category, slug=slug)
-    products = category.products.all()
-    
 
 
     # مرتب سازی
     sort_by = request.GET.get('sort', 'default')  # مرتب‌سازی
     limit = int(request.GET.get('limit', 20))  # محدودیت نمایش
 
-    # محصولات
-    products = Product.objects.all()
+
+    product = Product.objects.all()
+    category = get_object_or_404(Category, slug=slug)
+    products = category.get_child_products().all()[:limit]
+    
+
+
+
+   
 
     # مرتب‌سازی
     if sort_by == 'name_asc':
@@ -155,8 +167,7 @@ def category(request, slug):
     elif sort_by == 'rating_asc':
         products = products.order_by('rating')
 
-    # محدودیت نمایش
-    products = products[:limit]
+    
 
     # صفحه بندی 
     paginator = Paginator(product, 12)  # 12 آیتم در هر صفحه
@@ -169,11 +180,6 @@ def category(request, slug):
     product_created_at = Product.objects.order_by('-created_at')[:5]
     special_products = Product.objects.filter(
         is_special=True).order_by('-discount')
-
-   
-
-
-    
 
     context = {
         "all_products": product,

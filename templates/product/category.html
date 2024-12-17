@@ -147,7 +147,7 @@
         <br />
         <div class="row products-category">
           {% if categorys %}
-          {% for product in categorys.get_child_products %}
+          {% for product in products %}
           <div class="product-layout product-list col-xs-12">
             <div class="product-thumb">
               <div class="image"><a href="{{product.get_absulote_url}}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" width=100 /></a></div>

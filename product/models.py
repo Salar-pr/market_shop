@@ -53,8 +53,10 @@ class Category(models.Model):
     
     def get_child_products(self):
         childs = self.children.all()
-        products = Product.objects.filter(category__in=childs)
-        return products
+        child_products = Product.objects.filter(category__in=childs)
+        own_products = Product.objects.filter(category=self)
+        all_products = child_products | own_products
+        return all_products.distinct()
 
 
     def save(self, *args, **kwargs):

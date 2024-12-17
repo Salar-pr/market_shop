@@ -4,9 +4,11 @@
     <div class="container">
       <div class="table-container">
         <!-- Logo Start -->
-        <div class="col-table-cell col-lg-6 col-md-6 col-sm-12 col-xs-12 inner">
+         
+        {% comment %} <div class="col-table-cell col-lg-6 col-md-6 col-sm-12 col-xs-12 inner">
           <div id="logo"><a href="{% url "product:home" %}"><img class="img-responsive" src="media/mark/photo_5958515401300230664_y.jpg" title="SALARShop" alt="SALARShop" width=75   /></a></div>
-        </div>
+        </div> {% endcomment %}
+        
         <!-- Logo End -->
         <!-- Mini Cart Start-->
         {% if request.user.is_authenticated %}
