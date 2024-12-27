@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'product_order.apps.ProductOrderConfig',
     'widget_tweaks',
     'crispy_forms',
+    'about_us.apps.AboutUsConfig',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

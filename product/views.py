@@ -41,6 +41,7 @@ def home(request):
 
 
 def product_detail(request, uuid):
+    
     product = get_object_or_404(Product, uuid=uuid)
     comments = Comment.objects.all()
     if request.method == 'POST':
@@ -197,3 +198,20 @@ def category(request, slug):
     }
 
     return render(request, 'product/category.html', context)
+
+
+
+def about_us(request):
+    product_count_sold = Product.objects.filter(count_sold__gte=36).order_by('-count_sold')[:5]
+    product_created_at = Product.objects.order_by('-created_at')[:5]
+    special_products = Product.objects.filter(
+        is_special=True).order_by('-discount')
+    
+    context = {
+        'special_products':special_products,
+        'product_count_sold':product_count_sold,
+        'product_created_at':product_created_at,
+
+    }
+
+    return render(request, 'product/404.html', context)

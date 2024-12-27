@@ -1,5 +1,6 @@
 {% extends "_base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 <div class="wrapper-wide">
@@ -56,23 +57,23 @@
                     <div class="panel-body">
                         <div class="form-group">
                             {{ form.first_name.label_tag }}
-                            {{ form.first_name|attr:"class=form-control" }}
+                            {{ form.first_name|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.last_name.label_tag }}
-                            {{ form.last_name|attr:"class=form-control" }}
+                            {{ form.last_name|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.email.label_tag }}
-                            {{ form.email|attr:"class=form-control" }}
+                            {{ form.email|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.phone_number.label_tag }}
-                            {{ form.phone_number|attr:"class=form-control" }}
+                            {{ form.phone_number|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.fax.label_tag }}
-                            {{ form.fax|attr:"class=form-control" }}
+                            {{ form.fax|add_class:"form-control" }}
                         </div>
                     </div>
                 </div>
@@ -85,15 +86,15 @@
                     <div class="panel-body">
                         <div class="form-group">
                             {{ form.address_1.label_tag }}
-                            {{ form.address_1|attr:"class=form-control" }}
+                            {{ form.address_1|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.city.label_tag }}
-                            {{ form.city|attr:"class=form-control" }}
+                            {{ form.city|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             {{ form.postcode.label_tag }}
-                            {{ form.postcode|attr:"class=form-control" }}
+                            {{ form.postcode|add_class:"form-control" }}
                         </div>
                     </div>
                 </div>

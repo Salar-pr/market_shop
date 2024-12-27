@@ -80,7 +80,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12,decimal_places=0)
     number = models.PositiveIntegerField(default=0)
     colors = models.ManyToManyField(Color)
-    image = models.ImageField(upload_to="products")
+    image = models.ImageField(upload_to="products" ,width_field=100,height_field=150)
     count_sold = models.PositiveIntegerField(default=0)
     is_special = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
@@ -139,7 +139,7 @@ class Product(models.Model):
 class Gallery(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="galleries")
     title = models.CharField(max_length=255,unique=True)
-    image = models.ImageField(upload_to="galleries")
+    image = models.ImageField(upload_to="galleries",width_field=100,height_field=150)
     
     
     class Meta:

@@ -5,6 +5,7 @@ from product.models import Product
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from django.db import transaction
 
 
 def add_order_item(request):
@@ -14,21 +15,28 @@ def add_order_item(request):
         if form.is_valid():
             cd = form.cleaned_data
             count = cd["count"]
-            order = Order.objects.get(owner=request.user,
-                                      status=Order.OrderStatus.PENDING,
-                                      )
+            
             if count < 0:
                 count = 1
 
-            product = get_object_or_404(Product, id=cd["product_id"])
-            item = OrderItem(
-                order=order,
-                item=product,
-                price=product.get_total_price(),
-                count=cd["count"])
-
-            item.save()
-            return redirect("product:product_detail", uuid=product.uuid)
+            try:
+                with transaction.atomic():
+                    order = Order.objects.get(owner=request.user, status=Order.OrderStatus.PENDING)
+                    product = get_object_or_404(Product, id=cd["product_id"])
+                    
+                    item = OrderItem(
+                        order=order,
+                        item=product,
+                        price=product.get_total_price(),
+                        count=count
+                    )
+                    item.save()
+                    
+                    return redirect("product:product_detail", uuid=product.uuid)
+            except Order.DoesNotExist:
+                return redirect("product:home", error="No pending order found.")
+            except Exception as e:
+                return redirect("product:home", error=str(e))
 
     return redirect("product:home")
 
