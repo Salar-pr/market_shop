@@ -85,11 +85,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASE = database.DATABASES
+# my_database
+import importlib
+database = importlib.import_module('database')
+DATABASES = database.DATABASES
 
 
 
