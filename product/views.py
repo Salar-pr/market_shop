@@ -11,6 +11,7 @@ from django.db.models import Avg
 
 def home(request):
     categories = Category.objects.all()
+    products = Product.objects.none()
     for category in categories:
         # محصولات مرتبط با دسته‌بندی و فرزندانش
         products = Product.objects.filter(

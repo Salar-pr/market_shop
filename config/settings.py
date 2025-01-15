@@ -85,6 +85,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+        # add your database
+            # DATABASES = {
+            #     'default': {
+            #         'ENGINE': 'django.db.backends.postgresql',
+            #         'NAME': 'database_name',
+            #         'USER': 'database_user',
+            #         'PASSWORD': 'database_password',
+            #         'HOST': 'localhost',
+            #         'PORT': '',
+            #     }
+            # }
+
 # my_database
 import importlib
 database = importlib.import_module('database')
