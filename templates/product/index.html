@@ -43,6 +43,7 @@
       <aside id="column-left" class="col-sm-3 hidden-xs">
         <h3 class="subtitle">پرفروش ها</h3>
         <div class="side-item">
+          {% if product_count_sold %}
           {% for product in product_count_sold %}
           <div class="product-thumb clearfix">
             <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
@@ -52,9 +53,19 @@
             </div>
           </div>
           {% endfor %}
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image"><a href=""><img src="" alt="Default image" title="Default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">کالا کورد نظر</a></h4>
+              <p class="price"> <span class="price-new">قیمت</span>{% if product.is_special %} <span class="price-old">قیمت</span>{% endif %} {% if product.discount %}<span class="saving">تخفیف%</span>{% endif %} </p>
+            </div>
+          </div>
+          {% endif %}
         </div>
         <h3 class="subtitle">ویژه</h3>
         <div class="side-item">
+          {% if special_products %}
           {% for product in special_products %}
           <div class="product-thumb clearfix">
             <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
@@ -64,11 +75,19 @@
             </div>
           </div>
           {% endfor %}
-          
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image"><a href=""><img src="" alt="Default image" title="Default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">کالا کورد نظر</a></h4>
+              <p class="price"> <span class="price-new">قیمت</span>{% if product.is_special %} <span class="price-old">قیمت</span>{% endif %} {% if product.discount %}<span class="saving">تخفیف%</span>{% endif %} </p>
+            </div>
+          </div>
+          {% endif %}
         </div>
         <h3 class="subtitle">جدیدترین</h3>
         <div class="side-item">
-
+          {% if product_created_at %}
           {% for product in product_created_at %}
           <div class="product-thumb clearfix">
             <div class="image"><a href="{% url "product:product_detail" product.uuid %}"><img src="{{product.image.url}}" alt="{{product.title}}" title="{{product.title}}" class="img-responsive" /></a></div>
@@ -78,7 +97,15 @@
             </div>
           </div>
           {% endfor %}
-          
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image"><a href=""><img src="" alt="Default image" title="Default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">Default product</a></h4>
+              <p class="price"> <span class="price-new">قیمت</span>{% if product.is_special %} <span class="price-old">قیمت</span>{% endif %} {% if product.discount %}<span class="saving">تخفیف%</span>{% endif %} </p>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </aside>
       <!-- Left Part End-->
@@ -86,6 +113,7 @@
       <div id="content" class="col-sm-9">
         <!-- Slideshow Start-->
         <div class="slideshow single-slider owl-carousel">
+          {% if sliders %}
           {% for slide in sliders %}
           <div class="item"> 
             <a href="{{slide.link}}">
@@ -93,11 +121,20 @@
               ></a> 
             </div>
           {% endfor %}
+          {% else %}
+          <div class="item"> 
+            <a href="">
+              <img class="img-responsive" src="{{ slide.image.url }}" alt="{{ slide.title }}" /
+              ></a> 
+            </div>
+          {% endif %}
+
         </div>
         <!-- Slideshow End-->
         <!-- Featured محصولات Start-->
         <h3 class="subtitle">ویژه</h3>
         <div class="owl-carousel product_carousel">
+          {% if special_products %}
           {% for product in special_products %}
           <div class="product-thumb clearfix">
             <div class="image">
@@ -141,6 +178,50 @@
             </div>
           </div>
           {% endfor %}
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image">
+              <a href=""
+              ><img src="" alt="Default image" title="Default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">Default product</a></h4>
+              <p class="price">
+                 <span class="price-new">Default price</span> 
+                {% if product.discount %}<span class="price-old">Default price</span> 
+                <span class="saving">%Default discount</span>{% endif %} 
+              </p>
+              <div class="rating"> 
+                <span class="fa fa-stack">
+                  <i class="fa fa-star fa-stack-2x"></i>
+                  <i class="fa fa-star-o fa-stack-2x"></i>
+                </span> 
+                <span class="fa fa-stack">
+                  <i class="fa fa-star fa-stack-2x"></i>
+                  <i class="fa fa-star-o fa-stack-2x"></i>
+                </span> 
+                <span class="fa fa-stack">
+                  <i class="fa fa-star fa-stack-2x"></i>
+                  <i class="fa fa-star-o fa-stack-2x"></i>
+                </span> 
+                <span class="fa fa-stack">
+                  <i class="fa fa-star fa-stack-2x"></i>
+                  <i class="fa fa-star-o fa-stack-2x"></i>
+                </span> 
+                  <span class="fa fa-stack">
+                    <i class="fa fa-star-o fa-stack-2x"></i>
+                  </span> 
+                </div>
+            </div>
+            <div class="button-group">
+              <a href=""><button class="btn-primary" type="button" onClick="cart.add('46');"><span>افزودن به سبد</span></button></a>
+              <div class="add-to-links">
+                <button type="button" data-toggle="tooltip" title="Add to Wish List" onClick=""><i class="fa fa-heart"></i></button>
+                <button type="button" data-toggle="tooltip" title="مقایسه this محصولات" onClick=""><i class="fa fa-exchange"></i></button>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
         </div>
         <!-- Featured محصولات End-->
         <!-- Banner Start-->
@@ -157,10 +238,11 @@
           <h3 class="subtitle">محصولات - <a class="viewall" href="{% url 'product:category_all'%}">نمایش همه</a></h3>
           
           <div class="category-module-content">
-            
+            {% if parent_category %}
             {% for cat in parent_category %}
             <div id="tab-cat1" class="tab_content">
               <div class="owl-carousel latest_category_tabs">
+                {% if products_all %}
                 {% for product in products_all %}
                 <div class="product-thumb clearfix">
                   <div class="image">
@@ -196,9 +278,45 @@
                   </div>
                 </div>
           {% endfor %}
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image">
+              <a href=""
+              ><img src="" alt="default image" title="default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">default product</a></h4>
+              <p class="price">
+                 <span class="price-new">default price</span> 
+                 {% if product.discount %}<span class="price-old">default price</span> 
+                 <span class="saving">%default discount</span>{% endif %}  
+              </p>
+              <div class="rating"> 
+                {% for i in "12345" %}
+                  <span class="fa fa-stack">
+                      {% if i|add:0 <= product.avg_rating|default:0 %}
+                           <i class="fa fa-star fa-stack-2x"></i>
+                              {% else %}
+                           <i class="fa fa-star-o fa-stack-2x"></i>
+                            {% endif %}
+                          </span>
+                
+                          
+              {% endfor %} 
+                </div>
+            </div>
+            <div class="button-group">
+              <a href=""><button class="btn-primary" type="button" onClick="cart.add('46');"><span>افزودن به سبد</span></button></a>
+              <div class="add-to-links">
+                <button type="button" data-toggle="tooltip" title="Add to Wish List" onClick=""><i class="fa fa-heart"></i></button>
+                <button type="button" data-toggle="tooltip" title="مقایسه this محصولات" onClick=""><i class="fa fa-exchange"></i></button>
+              </div>
+            </div>
+          </div>
+          {% endif %}
               </div>
             </div>
             {% endfor %}
+            {% endif %}
           </div>
         </div>
         <!-- دسته ها محصولات Slider End-->
@@ -210,9 +328,11 @@
         </div>
         <!-- Banner End -->
         <!-- دسته ها محصولات Slider Start -->
+         {% if parent_category %}
         {% for cat in parent_category %}
         <h3 class="subtitle">{{cat.title}} <a class="viewall" href="{% url 'product:category' slug=cat.slug %}">نمایش همه</a></h3>
         <div class="owl-carousel latest_category_carousel">
+          {% if cat.get_child_products %}
           {% for product in cat.get_child_products %}
           <div class="product-thumb clearfix">
             <div class="image">
@@ -258,8 +378,55 @@
           </div>
 
           {% endfor %}
+          {% else %}
+          <div class="product-thumb clearfix">
+            <div class="image">
+              <a href=""
+              ><img src="" alt="default image" title="default image" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="">default product</a></h4>
+              <p class="price">
+                 <span class="price-new">default price</span> 
+                 {% if product.discount %}<span class="price-old">default price</span> 
+                 <span class="saving">%default discount</span>{% endif %} 
+              </p>
+              <div class="rating"> 
+                  <span class="fa fa-stack">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i class="fa fa-star-o fa-stack-2x"></i>
+                  </span> 
+                  <span class="fa fa-stack">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i class="fa fa-star-o fa-stack-2x"></i>
+                  </span> 
+                  <span class="fa fa-stack">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i class="fa fa-star-o fa-stack-2x"></i>
+                  </span> 
+                  <span class="fa fa-stack">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i class="fa fa-star-o fa-stack-2x"></i>
+                  </span> 
+                    <span class="fa fa-stack">
+                      <i class="fa fa-star-o fa-stack-2x"></i>
+                    </span> 
+                  </div>
+                
+            </div>
+            <div class="button-group">
+              <a href=""><button class="btn-primary" type="button" onClick="cart.add('46');"><span>افزودن به سبد</span></button></a>
+              <div class="add-to-links">
+                <button type="button" data-toggle="tooltip" title="Add to Wish List" onClick=""><i class="fa fa-heart"></i></button>
+                <button type="button" data-toggle="tooltip" title="مقایسه this محصولات" onClick=""><i class="fa fa-exchange"></i></button>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
         </div>
         {% endfor %}
+
+        {% endif %}
         <!-- دسته ها محصولات Slider End -->
       </div>
       <!--Middle Part End-->
