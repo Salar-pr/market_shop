@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.shortcuts import render
+
+def custom_404_view(request, exception):
+    return render(request, 'product/404.html', status=404)
 
 
 def home(request):
@@ -139,8 +143,6 @@ def category(request, slug):
             category.slug = slugify(category.title)
             category.save()
 
-
-
     # مرتب سازی
     sort_by = request.GET.get('sort', 'default')  # مرتب‌سازی
     limit = int(request.GET.get('limit', 20))  # محدودیت نمایش
@@ -151,9 +153,6 @@ def category(request, slug):
     products = category.get_child_products().all()[:limit]
     
 
-
-
-   
 
     # مرتب‌سازی
     if sort_by == 'name_asc':
